@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="FitZone Gym: facilities, membership plans, trainers and contact details.">
+  <title>FitZone Gym | Train hard. Train together.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- Design tokens ---------- */
+    :root {
+      --chalk: #eef0ec;
+      --steel: #18232e;
+      --steel-soft: #26343f;
+      --tape: #f5c400;
+      --grey: #5b6b7a;
+      --white: #ffffff;
+      --line: #cfd5d0;
+      --radius: 4px;
+      --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+      --body: "Barlow", "Segoe UI", Arial, sans-serif;
+    }
+
+    /* ---------- Base ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body {
+      margin: 0;
+      font-family: var(--body);
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      color: var(--steel);
+      background: var(--chalk);
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+    h1, h2, h3 {
+      font-family: var(--display);
+      line-height: 1.05;
+      margin: 0 0 .5em;
+      letter-spacing: .01em;
+    }
+    h1 { font-size: clamp(3rem, 9vw, 6.5rem); font-weight: 800; text-transform: uppercase; }
+    h2 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; }
+    h3 { font-size: 1.6rem; font-weight: 700; }
+    p { margin: 0 0 1em; max-width: 62ch; }
+    :focus-visible { outline: 3px solid var(--tape); outline-offset: 3px; }
+
+    .wrap { width: min(1120px, 92%); margin-inline: auto; }
+    section { padding: 4.5rem 0; }
+    .lead { color: var(--grey); font-size: 1.15rem; }
+
+    /* Floor-tape motif: the one signature element */
+    .tape {
+      height: 14px;
+      background: repeating-linear-gradient(-45deg, var(--tape) 0 18px, var(--steel) 18px 36px);
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-block;
+      padding: .8rem 1.6rem;
+      font-family: var(--display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: .03em;
+      text-decoration: none;
+      background: var(--tape);
+      color: var(--steel);
+      border: 2px solid var(--tape);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .btn:hover { background: var(--steel); color: var(--tape); border-color: var(--steel); }
+    .btn.ghost { background: transparent; color: var(--white); border-color: var(--white); }
+    .btn.ghost:hover { background: var(--white); color: var(--steel); }
+
+    /* ---------- Header and navigation ---------- */
+    header.site {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--steel);
+      color: var(--white);
+    }
+    .bar { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
+    .logo {
+      font-family: var(--display);
+      font-size: 2rem;
+      font-weight: 800;
+      text-decoration: none;
+      letter-spacing: .02em;
+    }
+    .logo span { color: var(--tape); }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: .5rem; }
+    nav a {
+      display: block;
+      padding: .5rem .9rem;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 3px solid transparent;
+    }
+    nav a:hover { border-bottom-color: var(--tape); }
+    nav a.join { background: var(--tape); color: var(--steel); border-radius: var(--radius); font-weight: 600; }
+    nav a.join:hover { border-bottom-color: transparent; background: var(--white); }
+
+    /* CSS-only mobile menu (checkbox toggle) */
+    #menu-toggle { position: absolute; opacity: 0; pointer-events: none; }
+    .burger { display: none; cursor: pointer; padding: .5rem; }
+    .burger span, .burger span::before, .burger span::after {
+      display: block; width: 26px; height: 3px; background: var(--white); position: relative; content: "";
+    }
+    .burger span::before { position: absolute; top: -8px; }
+    .burger span::after { position: absolute; top: 8px; }
+    #menu-toggle:focus-visible + .burger { outline: 3px solid var(--tape); }
+
+    @media (max-width: 760px) {
+      .burger { display: block; }
+      nav { position: absolute; inset: 100% 0 auto 0; background: var(--steel-soft); display: none; }
+      nav ul { flex-direction: column; padding: .5rem 4%; }
+      #menu-toggle:checked ~ nav { display: block; }
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      background: var(--steel);
+      color: var(--white);
+      padding: 5rem 0 4rem;
+    }
+    .hero .wrap { display: grid; gap: 3rem; grid-template-columns: 1.4fr 1fr; align-items: center; }
+    .hero h1 { margin-bottom: .3em; }
+    .hero h1 em { font-style: normal; color: var(--tape); }
+    .hero p { color: #c9d2d9; font-size: 1.2rem; }
+    .hero .actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+    .hours {
+      background: var(--steel-soft);
+      border-left: 8px solid var(--tape);
+      padding: 1.5rem;
+    }
+    .hours h2 { font-size: 1.8rem; }
+    .hours dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: .4rem 1.2rem; }
+    .hours dt { font-weight: 600; }
+    .hours dd { margin: 0; color: #c9d2d9; }
+    @media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; } }
+
+    /* ---------- Facilities ---------- */
+    .facilities { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 2rem; }
+    .facility { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .facility img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+    .facility div { padding: 1.1rem 1.3rem 1.3rem; }
+    .facility h3 { margin-bottom: .25em; }
+    .facility p { margin: 0; color: var(--grey); font-size: 1rem; }
+
+    /* ---------- Plans table ---------- */
+    .plans-bg { background: var(--white); }
+    .table-scroll { overflow-x: auto; margin-top: 2rem; border: 1px solid var(--line); border-radius: var(--radius); }
+    table { width: 100%; border-collapse: collapse; min-width: 640px; background: var(--white); }
+    caption { text-align: left; padding: 1rem 1.2rem; font-weight: 600; color: var(--grey); caption-side: bottom; font-size: .95rem; }
+    th, td { padding: 1rem 1.2rem; text-align: center; border-bottom: 1px solid var(--line); }
+    th:first-child, td:first-child { text-align: left; font-weight: 600; }
+    thead th { background: var(--steel); color: var(--white); font-family: var(--display); font-size: 1.5rem; letter-spacing: .02em; }
+    thead th.best { background: var(--tape); color: var(--steel); }
+    tbody tr:nth-child(even) { background: var(--chalk); }
+    tbody td.best { background: #fff6cc; font-weight: 600; }
+    tfoot td { border-bottom: 0; padding-block: 1.2rem; }
+
+    /* ---------- Trainers ---------- */
+    .trainers { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-top: 2rem; }
+    .trainer { margin: 0; }
+    .trainer img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius); border-bottom: 8px solid var(--tape); }
+    .trainer figcaption { padding-top: .9rem; }
+    .trainer strong { display: block; font-family: var(--display); font-size: 1.6rem; line-height: 1.1; }
+    .trainer span { color: var(--grey); }
+
+    /* ---------- Contact ---------- */
+    .contact-bg { background: var(--steel); color: var(--white); }
+    .contact-grid { display: grid; gap: 3rem; grid-template-columns: 1fr 1.2fr; margin-top: 2rem; }
+    .contact-grid address { font-style: normal; }
+    .contact-grid address p { margin-bottom: .8em; }
+    .contact-grid a { color: var(--tape); }
+    aside.tip { margin-top: 1.5rem; padding: 1rem 1.2rem; background: var(--steel-soft); border-left: 6px solid var(--tape); color: #c9d2d9; }
+    form { background: var(--white); color: var(--steel); padding: 1.8rem; border-radius: var(--radius); }
+    fieldset { border: 0; padding: 0; margin: 0 0 1rem; }
+    legend { font-family: var(--display); font-size: 1.6rem; font-weight: 700; padding: 0; margin-bottom: .6rem; }
+    label { display: block; font-weight: 600; margin: .9rem 0 .3rem; }
+    input, select, textarea {
+      width: 100%;
+      font: inherit;
+      padding: .7rem .8rem;
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--chalk);
+      color: var(--steel);
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--steel); background: var(--white); }
+    textarea { min-height: 110px; resize: vertical; }
+    .check { display: flex; gap: .6rem; align-items: flex-start; font-weight: 400; }
+    .check input { width: auto; margin-top: .4rem; }
+    .radios { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+    .radios label { display: flex; gap: .4rem; align-items: center; font-weight: 500; margin: 0; }
+    .radios input { width: auto; }
+    form .btn { margin-top: 1rem; }
+    @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; } }
+
+    /* ---------- Footer ---------- */
+    footer { background: #101820; color: #aab6c0; padding: 2rem 0; font-size: .95rem; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; }
+    footer ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.2rem; }
+    footer a:hover { color: var(--tape); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ========== HEADER + NAVIGATION ========== -->
+  <header class="site">
+    <div class="wrap bar">
+      <a class="logo" href="#top" aria-label="FitZone Gym home">FIT<span>ZONE</span></a>
+
+      <input type="checkbox" id="menu-toggle" aria-label="Toggle menu">
+      <label class="burger" for="menu-toggle"><span></span></label>
+
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="#facilities">Facilities</a></li>
+          <li><a href="#plans">Plans</a></li>
+          <li><a href="#trainers">Trainers</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a class="join" href="#join">Join now</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="tape" aria-hidden="true"></div>
+  </header>
+
+  <main id="top">
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div>
+          <h1 id="hero-title">Train hard.<br><em>Train together.</em></h1>
+          <p>FitZone is a neighbourhood gym with a full strength floor, group classes and coaches who know your name. Walk in for a free day pass and see if it fits.</p>
+          <div class="actions">
+            <a class="btn" href="#join">Book a free day pass</a>
+            <a class="btn ghost" href="#plans">Compare plans</a>
+          </div>
+        </div>
+
+        <aside class="hours" aria-labelledby="hours-title">
+          <h2 id="hours-title">Opening hours</h2>
+          <dl>
+            <dt>Mon to Fri</dt><dd>5:00 am to 11:00 pm</dd>
+            <dt>Saturday</dt><dd>6:00 am to 9:00 pm</dd>
+            <dt>Sunday</dt><dd>7:00 am to 6:00 pm</dd>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ========== FACILITIES ========== -->
+    <section id="facilities" aria-labelledby="fac-title">
+      <div class="wrap">
+        <h2 id="fac-title">What you get on the floor</h2>
+        <p class="lead">Four zones under one roof, all included in every membership.</p>
+
+        <div class="facilities">
+          <article class="facility">
+            <img alt="Illustration of a barbell on a rack" width="600" height="400"
+              src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400'%3E%3Crect width='600' height='400' fill='%2326343f'/%3E%3Crect x='80' y='196' width='440' height='10' fill='%23cfd5d0'/%3E%3Crect x='110' y='140' width='24' height='122' fill='%23f5c400'/%3E%3Crect x='140' y='160' width='20' height='82' fill='%23f5c400'/%3E%3Crect x='466' y='140' width='24' height='122' fill='%23f5c400'/%3E%3Crect x='440' y='160' width='20' height='82' fill='%23f5c400'/%3E%3Crect x='0' y='330' width='600' height='70' fill='%2318232e'/%3E%3C/svg%3E">
+            <div>
+              <h3>Strength floor</h3>
+              <p>Racks, platforms, dumbbells up to 60 kg and plate-loaded machines.</p>
+            </div>
+          </article>
+
+          <article class="facility">
+            <img alt="Illustration of a treadmill" width="600" height="400"
+              src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400'%3E%3Crect width='600' height='400' fill='%23f5c400'/%3E%3Cpolygon points='120,300 480,300 440,340 150,340' fill='%2318232e'/%3E%3Crect x='420' y='120' width='14' height='180' fill='%2318232e'/%3E%3Crect x='360' y='110' width='100' height='36' rx='6' fill='%2326343f'/%3E%3Ccircle cx='250' cy='150' r='22' fill='%2318232e'/%3E%3Crect x='238' y='176' width='26' height='80' rx='10' fill='%2318232e'/%3E%3C/svg%3E">
+            <div>
+              <h3>Cardio deck</h3>
+              <p>Treadmills, rowers, bikes and ski ergs, with plenty of free machines at peak hours.</p>
+            </div>
+          </article>
+
+          <article class="facility">
+            <img alt="Illustration of a yoga mat" width="600" height="400"
+              src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400'%3E%3Crect width='600' height='400' fill='%235b6b7a'/%3E%3Crect x='90' y='170' width='420' height='60' rx='30' fill='%23eef0ec'/%3E%3Crect x='90' y='250' width='420' height='60' rx='30' fill='%23f5c400'/%3E%3C/svg%3E">
+            <div>
+              <h3>Studio</h3>
+              <p>Yoga, HIIT, spin and mobility classes, 30+ sessions a week.</p>
+            </div>
+          </article>
+
+          <article class="facility">
+            <img alt="Illustration of a locker room bench and lockers" width="600" height="400"
+              src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400'%3E%3Crect width='600' height='400' fill='%23cfd5d0'/%3E%3Crect x='70' y='60' width='90' height='220' fill='%2318232e'/%3E%3Crect x='170' y='60' width='90' height='220' fill='%2326343f'/%3E%3Crect x='270' y='60' width='90' height='220' fill='%2318232e'/%3E%3Crect x='370' y='60' width='90' height='220' fill='%2326343f'/%3E%3Crect x='70' y='310' width='390' height='18' fill='%23f5c400'/%3E%3C/svg%3E">
+            <div>
+              <h3>Locker rooms</h3>
+              <p>Showers, day lockers and a quiet recovery corner with foam rollers.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== MEMBERSHIP PLANS (TABLE) ========== -->
+    <section id="plans" class="plans-bg" aria-labelledby="plans-title">
+      <div class="wrap">
+        <h2 id="plans-title">Membership plans</h2>
+        <p class="lead">Pick a plan, pay monthly, cancel with 30 days' notice. No joining fee this month.</p>
+
+        <div class="table-scroll">
+          <table>
+            <caption>Prices are per month and include taxes. Student plans need a valid ID.</caption>
+            <thead>
+              <tr>
+                <th scope="col">What's included</th>
+                <th scope="col">Basic</th>
+                <th scope="col" class="best">Plus</th>
+                <th scope="col">Elite</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Price</th>
+                <td>₹1,499</td>
+                <td class="best">₹2,299</td>
+                <td>₹3,499</td>
+              </tr>
+              <tr>
+                <th scope="row">Strength and cardio floor</th>
+                <td>Yes</td><td class="best">Yes</td><td>Yes</td>
+              </tr>
+              <tr>
+                <th scope="row">Group classes</th>
+                <td>2 a week</td><td class="best">Unlimited</td><td>Unlimited</td>
+              </tr>
+              <tr>
+                <th scope="row">Access hours</th>
+                <td>5 am to 4 pm</td><td class="best">All day</td><td>All day</td>
+              </tr>
+              <tr>
+                <th scope="row">Personal training sessions</th>
+                <td>None</td><td class="best">1 a month</td><td>4 a month</td>
+              </tr>
+              <tr>
+                <th scope="row">Guest passes</th>
+                <td>None</td><td class="best">2 a month</td><td>5 a month</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>Ready to start?</td>
+                <td><a href="#join">Choose Basic</a></td>
+                <td><a href="#join"><strong>Choose Plus</strong></a></td>
+                <td><a href="#join">Choose Elite</a></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TRAINERS ========== -->
+    <section id="trainers" aria-labelledby="trainers-title">
+      <div class="wrap">
+        <h2 id="trainers-title">Meet your coaches</h2>
+        <p class="lead">Every coach is certified and runs a first-session assessment for free.</p>
+
+        <div class="trainers">
+          <figure class="trainer">
+            <img alt="Portrait placeholder for Aarav Mehta" width="400" height="400"
+              src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%2326343f'/%3E%3Ccircle cx='200' cy='160' r='70' fill='%23eef0ec'/%3E%3Cpath d='M60 400c0-90 62-140 140-140s140 50 140 140z' fill='%23eef0ec'/%3E%3Ctext x='200' y='185' font-size='64' text-anchor='middle' font-family='Arial' font-weight='700' fill='%2318232e'%3EAM%3C/text%3E%3C/svg%3E">
+            <figcaption>
+              <strong>Aarav Mehta</strong>
+              <span>Head coach, strength and powerlifting</span>
+            </figcaption>
+          </figure>
+
+          <figure class="trainer">
+            <img alt="Portrait placeholder for Riya Patel" width="400" height="400"
+              src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%235b6b7a'/%3E%3Ccircle cx='200' cy='160' r='70' fill='%23eef0ec'/%3E%3Cpath d='M60 400c0-90 62-140 140-140s140 50 140 140z' fill='%23eef0ec'/%3E%3Ctext x='200' y='185' font-size='64' text-anchor='middle' font-family='Arial' font-weight='700' fill='%2318232e'%3ERP%3C/text%3E%3C/svg%3E">
+            <figcaption>
+              <strong>Riya Patel</strong>
+              <span>Yoga and mobility</span>
+            </figcaption>
+          </figure>
+
+          <figure class="trainer">
+            <img alt="Portrait placeholder for Kabir Shah" width="400" height="400"
+              src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%2318232e'/%3E%3Ccircle cx='200' cy='160' r='70' fill='%23f5c400'/%3E%3Cpath d='M60 400c0-90 62-140 140-140s140 50 140 140z' fill='%23f5c400'/%3E%3Ctext x='200' y='185' font-size='64' text-anchor='middle' font-family='Arial' font-weight='700' fill='%2318232e'%3EKS%3C/text%3E%3C/svg%3E">
+            <figcaption>
+              <strong>Kabir Shah</strong>
+              <span>HIIT and conditioning</span>
+            </figcaption>
+          </figure>
+
+          <figure class="trainer">
+            <img alt="Portrait placeholder for Neha Joshi" width="400" height="400"
+              src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23cfd5d0'/%3E%3Ccircle cx='200' cy='160' r='70' fill='%2326343f'/%3E%3Cpath d='M60 400c0-90 62-140 140-140s140 50 140 140z' fill='%2326343f'/%3E%3Ctext x='200' y='185' font-size='64' text-anchor='middle' font-family='Arial' font-weight='700' fill='%23eef0ec'%3ENJ%3C/text%3E%3C/svg%3E">
+            <figcaption>
+              <strong>Neha Joshi</strong>
+              <span>Nutrition and weight management</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CONTACT + FORM ========== -->
+    <section id="contact" class="contact-bg" aria-labelledby="contact-title">
+      <div class="wrap">
+        <h2 id="contact-title">Visit us or send a message</h2>
+
+        <div class="contact-grid">
+          <div>
+            <address>
+              <p><strong>FitZone Gym</strong><br>
+                12 Alkapuri Road<br>
+                Vadodara, Gujarat 390007</p>
+              <p>Phone: <a href="tel:+910000000000">+91 00000 00000</a><br>
+                Email: <a href="mailto:hello@fitzone.example">hello@fitzone.example</a></p>
+            </address>
+            <p>
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=Alkapuri+Vadodara" target="_blank" rel="noopener">Open in Google Maps (new tab)</a>
+            </p>
+            <aside class="tip">
+              First visit? Bring a towel and water bottle. We'll lend you a lock for the day.
+            </aside>
+          </div>
+
+          <form id="join" action="#" method="post">
+            <fieldset>
+              <legend>Book your free day pass</legend>
+
+              <label for="name">Full name</label>
+              <input type="text" id="name" name="name" autocomplete="name" required>
+
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email" required>
+
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" pattern="[0-9+\s-]{10,15}" placeholder="10-digit number">
+
+              <label for="plan">Plan you're interested in</label>
+              <select id="plan" name="plan">
+                <option value="basic">Basic, ₹1,499 a month</option>
+                <option value="plus" selected>Plus, ₹2,299 a month</option>
+                <option value="elite">Elite, ₹3,499 a month</option>
+              </select>
+
+              <label for="date">Preferred visit date</label>
+              <input type="date" id="date" name="date">
+
+              <p style="margin:.9rem 0 .3rem;font-weight:600">Main goal</p>
+              <div class="radios">
+                <label><input type="radio" name="goal" value="strength" checked> Strength</label>
+                <label><input type="radio" name="goal" value="fatloss"> Fat loss</label>
+                <label><input type="radio" name="goal" value="fitness"> General fitness</label>
+              </div>
+
+              <label for="msg">Anything we should know?</label>
+              <textarea id="msg" name="message" placeholder="Injuries, schedule, questions"></textarea>
+
+              <label class="check">
+                <input type="checkbox" name="consent" required>
+                I agree to be contacted about my booking.
+              </label>
+            </fieldset>
+
+            <button class="btn" type="submit">Book my day pass</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="wrap">
+      <p style="margin:0">&copy; 2026 FitZone Gym. All rights reserved.</p>
+      <ul>
+        <li><a href="#facilities">Facilities</a></li>
+        <li><a href="#plans">Plans</a></li>
+        <li><a href="#trainers">Trainers</a></li>
+        <li><a href="#top">Back to top</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>
